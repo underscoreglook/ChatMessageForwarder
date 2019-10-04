@@ -1,0 +1,15 @@
+# This is a simple configuration file. Copy it to config.yaml and override your values
+dummy:
+  enabled: false
+  sendEverySeconds: 30
+discord:
+  enabled: false
+  token: "My Token Here"
+  guild: "My Guild Here"
+  channel: "general"
+hangouts:
+  enabled: false
+  loopTime: 5
+  username: "username"
+  password: "password"
+  chatName: "chat name"
