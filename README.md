@@ -21,6 +21,7 @@ This was designed to run with Python 3.7. It also requires:
 * pyyaml (pip install pyyaml)
 * discord.py (pip install -U discord.py)
 * pyppeteer (pip install pyppeteer)
+
 This was tested in Linux, though it should theoretically work on Windows and OSX, but I haven't personally spent time verifying it.
 
 # Setup
@@ -29,7 +30,16 @@ This section contains sub sections for all the supported chat clients and how to
 In addition, in order for the program to work, you need to copy sample-config.yaml to config.yaml.
 
 ## Discord
-TODO
+* Go to the Discord Developer Portal: http://discordapp.com/developers/applications
+* Log in
+* Create an Application
+* Create a Bot
+* Add the Bot to your Guild/Server using the Oauth section.
+* Give it read and message permissions.
+* In config.yaml, fill in the information in the "discord" portion, including enable to true.
+* See https://realpython.com/how-to-make-a-discord-bot-python/ for more info.
 
 ## Hangouts
-TODO
+* Create or reuse an existing Google account.
+* Make sure that Google account is join into a particular Conversation.
+* Go to config.yaml and type in the relevant information in the "hangouts" portion, including enable to true.
