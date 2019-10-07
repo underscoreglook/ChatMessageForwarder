@@ -13,3 +13,10 @@ hangouts:
   username: "username"
   password: "password"
   chatName: "chat name"
+facebook:
+  enabled: false
+  apiUrl: "https://graph.facebook.com/v4.0/me/messages"
+  verifyToken: "VERIFY TOKEN HERE"
+  pageAccessToken: "PAGE ACCESS TOKEN"
+  users:
+    '123456': "Some Name"

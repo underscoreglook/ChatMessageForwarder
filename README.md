@@ -12,8 +12,8 @@ In addition, you'll need a bot on every chat client that has read/write access t
 # Supported Clients
 * Discord
 * Hangouts (Classic, uses headless Chrome)
+* Facebook Messenger
 * PLANNED: GroupMe
-* MAYBE, DEPENDING ON API SUPPORT: Facebook Messenger
 
 # Requirements
 This was designed to run with Python 3.7. It also requires:
@@ -21,6 +21,8 @@ This was designed to run with Python 3.7. It also requires:
 * pyyaml (pip install pyyaml)
 * discord.py (pip install -U discord.py)
 * pyppeteer (pip install pyppeteer)
+* flask (pip install -U Flask)
+* ngrok (http://ngrok.com)
 
 This was tested in Linux, though it should theoretically work on Windows and OSX, but I haven't personally spent time verifying it.
 
@@ -43,3 +45,19 @@ In addition, in order for the program to work, you need to copy sample-config.ya
 * Create or reuse an existing Google account.
 * Make sure that Google account is join into a particular Conversation.
 * Go to config.yaml and type in the relevant information in the "hangouts" portion, including enable to true.
+
+## Facebook Messenger
+* If you don't have an FB App already, go through the Test drive here: https://developers.facebook.com/docs/messenger-platform/getting-started/test-drive
+* You should now have everything already set up. Now, set up config.yaml:
+** enabled: true
+** apiUrl: Shouldn't change
+** verifyToken: Put in some arbitrary string here
+** pageAccessToken: This can be found in developers.facebook.com, go to your app, go to Messenger->Settings, then go to "Access Tokens" and click "Generate Token".
+** users: This is a dictionary between fb_id and the name of the user. Put in as many as want to be part of the group. They will also be have to be set up as "Testers" in your app (go to Roles -> Roles in the app page)
+* Start the program. The Facebook Messanger will automatically start Flask on port 5000.
+* Start ngrok server in terminal with "ngrok http 5000". When it starts, note the https Forwarding address. Keep ngrok running.
+* Back in Facebook's developer page (Messenger -> Set Up), go to Webhooks, and add the forwarding url + "fb_webhook". I.E. "https://c29387597285379327573275.ngrok.io/fb_webhook"
+* The verify token should be the arbitrary string you put in the config.yaml.
+* (Note: Verifying the webhook needs to be done every time the ngrok url changes, such as on computer/server restart)
+* It should verify the new webhook and messages should be sending and receiving.
+* Give the Messenger link or page link to anyone who wants to join, and get their FB ID. Add them as testers and add them to the config. Remember that fbIds have to be strings in the config.

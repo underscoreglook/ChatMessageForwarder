@@ -1,6 +1,5 @@
 import asyncio
 import discord
-import threading
 import yaml
 
 from BaseClient import BaseClient

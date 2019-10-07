@@ -1,7 +1,6 @@
 import asyncio
 import random
 import string
-import threading
 import yaml
 from BaseClient import BaseClient
 
