@@ -26,10 +26,23 @@ class BaseClient(ABC):
         """
         pass
 
-    @abstractmethod
+    def usesFlask(self):
+        """
+        Says whether or not the client uses Flask. If so, Flask will be set up.
+        """
+        return False
+
+    def setupFlask(self, app):
+        """
+        If doesUseFlask is true, this method should be used to setup a webhook using app.
+        Only needed if doesUseFlask is True.
+        """
+        pass
+
     async def run(self):
         """
         Runs the logic of the client, typically an infinite loop.
         Should probably use asyncio.sleep to not burn the CPU.
+        Only needed if doesUseFlask is False.
         """
         pass

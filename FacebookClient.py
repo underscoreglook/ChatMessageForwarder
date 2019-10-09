@@ -19,6 +19,9 @@ class FacebookClient(BaseClient):
     def getTag(self):
         return "[F]"
 
+    def usesFlask(self):
+        return True
+
     def sendMessage(self, message):
         print("(Facebook Received) " + message)
         for fbId in self.users:
@@ -43,9 +46,7 @@ class FacebookClient(BaseClient):
             json=payload
         )
 
-    async def run(self):
-        app = flask.Flask(__name__)
-
+    def setupFlask(self, app):
         def isUserMessage(message):
             """Check if the message is a message from the user"""
             print(message)
@@ -54,7 +55,7 @@ class FacebookClient(BaseClient):
                     not message['message'].get("is_echo"))
 
         @app.route("/fb_webhook", methods=['GET', 'POST'])
-        def listen():
+        def facebookWebhook():
             request = flask.request
             # Verify webhook
             if request.method == 'GET':
@@ -85,11 +86,5 @@ class FacebookClient(BaseClient):
             # Just show success
             return "ok"
 
-        def startApp(flaskApp):
-            flaskApp.run()
-
-        appThread = threading.Thread(target=startApp, args=(app,))
-        appThread.daemon = True
-        appThread.start()
-        print("FACEBOOK READY")
+        print("FACEBOOK INITIALIZED")
         self.isReady = True

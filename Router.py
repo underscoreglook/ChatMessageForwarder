@@ -1,4 +1,6 @@
 import asyncio
+import flask
+import threading
 from queue import Queue;
 import BaseClient
 
@@ -9,11 +11,14 @@ class Router:
         self.messageQueue = Queue()
         self.clients = []
         self.isReady = False
+        self.usesFlaskClient = False
 
     def addClient(self, client):
         if not isinstance(client, BaseClient.BaseClient):
             raise TypeError("client must be of type BaseClient")
         self.clients.append(client)
+        if client.usesFlask():
+            self.usesFlaskClient = True
 
     def receiveMessage(self, client, author, message):
         """
@@ -53,8 +58,26 @@ class Router:
 
     def start(self):
         tasks = []
+
+        # If we need flask, set it up
+        if self.usesFlaskClient:
+            app = flask.Flask(__name__)
+
+        # Setup webhooks or event loops
         for client in self.clients:
-            tasks.append(client.run())
+            if client.usesFlask():
+                client.setupFlask(app)
+            else:
+                tasks.append(client.run())
+
+        # Run flask if we have it
+        def startFlask(flaskApp):
+            flaskApp.run()
+        if self.usesFlaskClient:
+            appThread = threading.Thread(target=startFlask, args=(app,))
+            appThread.daemon = True
+            appThread.start()
+
         loop = asyncio.get_event_loop()
         groups = asyncio.gather(*tasks, self.run())
         loop.run_until_complete(groups)
