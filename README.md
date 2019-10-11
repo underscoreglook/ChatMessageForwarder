@@ -53,7 +53,7 @@ In addition, in order for the program to work, you need to copy sample-config.ya
 ** apiUrl: Shouldn't change
 ** verifyToken: Put in some arbitrary string here
 ** pageAccessToken: This can be found in developers.facebook.com, go to your app, go to Messenger->Settings, then go to "Access Tokens" and click "Generate Token".
-** users: This is a dictionary between fb_id and the name of the user. Put in as many as want to be part of the group. They will also be have to be set up as "Testers" in your app (go to Roles -> Roles in the app page)
+** users: This is a dictionary between psId and the name of the user. Put in as many as want to be part of the group. They will also be have to be set up as "Testers" in your app (go to Roles -> Roles in the app page). The psId is not easily gettable, so the console will print this out, along with a file "facebookPsIds.txt" being created for messages sent with psIds we don't have info for.
 * Start the program. The Facebook Messanger will automatically start Flask on port 5000.
 * Start ngrok server in terminal with "ngrok http 5000". When it starts, note the https Forwarding address. Keep ngrok running.
 * Back in Facebook's developer page (Messenger -> Set Up), go to Webhooks, and add the forwarding url + "fb_webhook". I.E. "https://c29387597285379327573275.ngrok.io/fb_webhook"

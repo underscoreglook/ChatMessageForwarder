@@ -27,24 +27,14 @@ class FacebookClient(BaseClient):
         for fbId in self.users:
             self.sendToSpecificUser(fbId, message)
 
-    def sendToSpecificUser(self, fbId, message):
+    def sendToSpecificUser(self, psId, message):
         payload = {
-            'message': {
-                'text': message
-            },
-            'recipient': {
-                'id': fbId
-            },
+            'message': {'text': message},
+            'recipient': {'id': psId},
             'notification_type': 'regular'
         }
-        auth = {
-            'access_token': self.PAGE_ACCESS_TOKEN
-        }
-        response = requests.post(
-            self.API_URL,
-            params=auth,
-            json=payload
-        )
+        auth = {'access_token': self.PAGE_ACCESS_TOKEN}
+        response = requests.post(self.API_URL, params=auth, json=payload)
 
     def setupFlask(self, app):
         def isUserMessage(message):
@@ -71,15 +61,21 @@ class FacebookClient(BaseClient):
                 for x in event:
                     if isUserMessage(x):
                         text = x['message']['text']
-                        senderId = x['sender']['id']
-                        senderName = self.users[str(senderId)]
+                        senderId = str(x['sender']['id'])
+                        if senderId not in self.users:
+                            print("\nFACEBOOK SENDER ID NOT FOUND: " + senderId + ": " + text + "\n")
+                            f=open("facebookPsIds.txt", "a+")
+                            f.write(senderId + ": " + text)
+                            f.close()
+                            continue
+                        senderName = self.users[senderId]
                         print(f"Facebook message recieved -- {senderName} ({senderId}): {text}")
                         # Send to other fb users
                         fbMsg = senderName + ": " + text
-                        for fbId in self.users:
-                            print("* Compare " + str(fbId) + " to " + str(senderId))
-                            if fbId != str(senderId):
-                                self.sendToSpecificUser(fbId, fbMsg)
+                        for psId in self.users:
+                            print("* Compare " + str(psId) + " to " + senderId)
+                            if psId != str(senderId):
+                                self.sendToSpecificUser(psId, fbMsg)
                         # Send to other clients
                         self.router.receiveMessage(self, senderName, text)
 
