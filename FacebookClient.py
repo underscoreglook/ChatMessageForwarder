@@ -1,9 +1,6 @@
-import asyncio
 import flask
 import requests
-import threading
 import yaml
-
 from BaseClient import BaseClient
 
 class FacebookClient(BaseClient):

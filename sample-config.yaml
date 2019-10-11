@@ -20,3 +20,7 @@ facebook:
   pageAccessToken: "PAGE ACCESS TOKEN"
   users:
     '123456': "Some Name"
+groupme:
+  enabled: false
+  botId: "bot id"
+  apiUrl: "https://api.groupme.com/v3/bots/post"

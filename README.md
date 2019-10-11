@@ -13,7 +13,7 @@ In addition, you'll need a bot on every chat client that has read/write access t
 * Discord
 * Hangouts (Classic, uses headless Chrome)
 * Facebook Messenger
-* PLANNED: GroupMe
+* GroupMe
 
 # Requirements
 This was designed to run with Python 3.7. It also requires:
@@ -54,10 +54,16 @@ In addition, in order for the program to work, you need to copy sample-config.ya
 ** verifyToken: Put in some arbitrary string here
 ** pageAccessToken: This can be found in developers.facebook.com, go to your app, go to Messenger->Settings, then go to "Access Tokens" and click "Generate Token".
 ** users: This is a dictionary between psId and the name of the user. Put in as many as want to be part of the group. They will also be have to be set up as "Testers" in your app (go to Roles -> Roles in the app page). The psId is not easily gettable, so the console will print this out, along with a file "facebookPsIds.txt" being created for messages sent with psIds we don't have info for.
-* Start the program. The Facebook Messanger will automatically start Flask on port 5000.
+* Start the program. The program will automatically start Flask on port 5000.
 * Start ngrok server in terminal with "ngrok http 5000". When it starts, note the https Forwarding address. Keep ngrok running.
 * Back in Facebook's developer page (Messenger -> Set Up), go to Webhooks, and add the forwarding url + "fb_webhook". I.E. "https://c29387597285379327573275.ngrok.io/fb_webhook"
 * The verify token should be the arbitrary string you put in the config.yaml.
 * (Note: Verifying the webhook needs to be done every time the ngrok url changes, such as on computer/server restart)
 * It should verify the new webhook and messages should be sending and receiving.
 * Give the Messenger link or page link to anyone who wants to join, and get their FB ID. Add them as testers and add them to the config. Remember that fbIds have to be strings in the config.
+
+## GroupMe
+* Create a bot (https://dev.groupme.com/bots). Put the Bot Id in the config in groupme section. enabled to true.
+* Start the program. The program will automatically start Flask on port 5000.
+* Start ngrok server in terminal with "ngrok http 5000". When it starts, note the https Forwarding address. Keep ngrok running.
+* In the bot, set the callback url to your ngrok URL with "/groupme" at the end. I.E. "https://c29387597285379327573275.ngrok.io/groupme"
